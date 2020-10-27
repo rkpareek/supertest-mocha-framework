@@ -1,0 +1,24 @@
+{
+  "name": "supertest-mocha-framework",
+  "version": "1.0.0",
+  "description": "***",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkpareek/supertest-mocha-framework.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rkpareek/supertest-mocha-framework/issues"
+  },
+  "homepage": "https://github.com/rkpareek/supertest-mocha-framework#readme",
+  "dependencies": {
+    "commander": "^6.1.0",
+    "mocha": "^8.2.0",
+    "supertest": "^5.0.0"
+  }
+}
