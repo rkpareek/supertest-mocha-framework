@@ -27,8 +27,9 @@ module.exports = function (CONFIG) {
         let req_headers = '';
         let req_body = '';
         let request;
+        let debugging = CONFIG.debug ? CONFIG.debug : lib.debug;
 
-        let server = supertest.agent(CONFIG.BASE_URL);
+        let server = supertest.agent(CONFIG.baseUrl);
         request = server[reqMethod](options.uri);
 
         if (lib.proxyCountryCode) {
@@ -51,7 +52,7 @@ module.exports = function (CONFIG) {
             req_body = '\n body: ' + JSON.stringify(options.json);
         }
 
-        if (lib.debug) {
+        if (debugging) {
             console.log('\x1b[35m%s\x1b[0m', '\nRequest Url...\n', reqMethod, options.uri);
             if (options.json) {
                 console.log('\x1b[36m%s\x1b[0m', '\nRequest Payload...\n', options.json);
@@ -69,7 +70,7 @@ module.exports = function (CONFIG) {
         }
 
         request.end(function (err, res) {
-            if (lib.debug) {
+            if (debugging) {
                 if (typeof res !== 'undefined') {
                     let res_body = typeof res.body === 'object' ? JSON.stringify(res.body) : res.body;
                     console.log('\x1b[32m%s\x1b[0m', '\nRequest Response...\n ' + res.statusCode, res_body + '\n');

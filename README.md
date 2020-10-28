@@ -16,7 +16,8 @@
 - Create a confuguration object containing BaseUrl of your apis endpoints or application
 ````
 var  config = {
-	"BASE_URL": "https://reqres.in"
+	"baseUrl": "https://reqres.in",
+	"debug": true | false
 }
 ````
   

@@ -1,6 +1,6 @@
 {
   "name": "supertest-mocha-framework",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "***",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/rkpareek/supertest-mocha-framework#readme",
   "dependencies": {
+    "chai": "^4.2.0",
     "commander": "^6.1.0",
     "mocha": "^8.2.0",
+    "mocha.parallel": "^0.15.6",
     "supertest": "^5.0.0"
   }
 }
