@@ -7,7 +7,7 @@ var config = {
 
 var expect = require('chai').expect;
 var supermocha = require('../index')
-var test = new supermocha(config)
+var test = new supermocha(config);
 
 describe('Test Suite...', function () {
     this.timeout(50000)
@@ -22,9 +22,11 @@ describe('Test Suite...', function () {
                 "job": "Quality Check"
             }
         }, function (err, res) {
-            expect(res.body).to.have.property('name', 'Test User')
-            expect(res.body).to.have.property('job', 'Quality Check')
-            done();
+            test.assert(err, res, function () {
+                expect(res.body).to.have.property('name');
+                expect(res.body).to.have.property('job');
+                // Add required assertion here
+            }, done)
         })
     });
 
@@ -33,10 +35,11 @@ describe('Test Suite...', function () {
         test({
             uri: '/api/users',
         }, function (err, res) {
-            expect(res.body).to.be.an('object');
-            expect(res.body).to.have.property('page');
-            // Add required assertion here
-            done();
+            test.assert(err, res, function () {
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('page');
+                // Add required assertion here
+            }, done)
         })
     });
 

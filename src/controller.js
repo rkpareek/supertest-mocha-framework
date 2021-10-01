@@ -1,9 +1,11 @@
 const lib = require('./lib');
 var supertest = require('supertest')
+var _ = require('underscore');
+const { indexOf } = require('underscore');
 
 module.exports = function (CONFIG) {
 
-    return function (options, callback) {
+    var module = function (options, callback) {
         /**
          * @param {object} options - the object containing all required param to create a request.
          *
@@ -83,5 +85,86 @@ module.exports = function (CONFIG) {
 
             pass_cb(callback, err, res);
         });
+    };
+
+    module.customError = function (res) {
+
+        // @params {object} res An object containing the api response
+
+        let payloadMsg = '';
+        let requestHeaders = '';
+
+        if (res.request.method !== 'GET' && res.request.method !== 'OPTIONS') {
+            let requestBody = res.request._data;
+            requestBody = this.resParser(requestBody, 'string');
+            payloadMsg = '\nPayload: ' + requestBody;
+        }
+
+        if (Object.keys(res.request.header).length > 2) {
+            requestHeaders = _.omit(res.request.header, ['User-Agent', 'Content-Type']);
+            requestHeaders = '\nRequestHeaders: ' + this.resParser(requestHeaders, 'string');
+        }
+
+        let requestResponse;
+        if (res.statusCode !== 404) requestResponse = JSON.stringify(res.body);
+        else requestResponse = res.text;
+
+        if (_.contains([500, 501, 502, 503, 504], res.statusCode)) {
+            return '(' + res.statusCode + ') ' + res.request.method + ' ' + res.request.url +
+                '\nActual Response: ' + JSON.stringify(res) +
+                this.resParser(requestHeaders, 'string') + '\n';
+        } else {
+            return '(' + res.statusCode + ') ' + res.request.method + ' ' + res.request.url +
+                '\nActual Response: ' + requestResponse + payloadMsg +
+                this.resParser(requestHeaders, 'string') + '\n';
+        }
+    };
+
+    module.assert = function (err, res, assertions, done) {
+
+        /*
+         * @param => err: err from api call {string} {required}
+         *
+         * @param => res: res from api call {string} {required}
+         *
+         * @param => assertions: {function} function containing all assertions
+         *
+         * @param => done: done function
+         *
+         */
+
+        if (!err) {
+            let url = res.request.url;
+            url = url.indexOf('?') > -1 ? url.substr(0, url.indexOf('?')) : url;
+
+            if (!err) {
+                try {
+                    assertions();
+                } catch (e1) {
+                    throw new Error(e1 + '\n\n' + this.customError(res));
+                }
+                finally {
+                    console.log('(' + res.statusCode + ')', res.request.method, url);
+                    done();
+                }
+            }
+        } else {
+            if (typeof res !== 'undefined' && typeof res.error !== 'undefined' && res.error) {
+                throw res.error;
+            } else throw err;
+        }
+    };
+
+    module.resParser = function (res, toConvert) {
+        toConvert = toConvert || 'object';
+        if (toConvert === 'string') {
+            res = typeof res === 'string' ? res : JSON.stringify(res);
+        } else {
+            res = typeof res === 'object' ? res : JSON.parse(res);
+        }
+        return res;
     }
+
+    return module;
 }
+
