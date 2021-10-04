@@ -1,9 +1,6 @@
 
-// Create a confuguration object containing BaseUrl of your apis endpoints or application
-var config = {
-    "baseUrl": "https://reqres.in",
-    "debug": false
-}
+// Call the config obj
+var config = require('./config.json')
 
 var expect = require('chai').expect;
 var supermocha = require('../index')

@@ -1,0 +1,6 @@
+
+{
+    "_comment": "Create a confuguration object containing BaseUrl of your apis endpoints or application",
+    "baseUrl": "https://reqres.in",
+    "debug": false
+}
