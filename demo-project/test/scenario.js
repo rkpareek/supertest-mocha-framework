@@ -1,10 +1,12 @@
 
 // Call the config obj
-var config = require('./config.json')
+var config = require('./../config.json')
 
 var expect = require('chai').expect;
-var supermocha = require('../index')
+var supermocha = require('./../../index')
 var test = new supermocha(config);
+var functions = require('./../functions.js');
+var route = new functions();
 
 describe('Test Suite...', function () {
     this.timeout(50000)
@@ -13,13 +15,9 @@ describe('Test Suite...', function () {
     it('\n1. Create a Test User and Fetch this user', function (done) {
         let fname = "Test User 01";
         //Create a Test User
-        test({
-            uri: '/api/user',
-            method: 'post',
-            json: {
-                "name": fname,
-                "job": "leader"
-            }
+        route.createUser({
+            "name": fname,
+            "job": "leader"
         }, function (err, res) {
             expect(res.body).to.have.property('job');
             expect(res.body).to.have.property('id');

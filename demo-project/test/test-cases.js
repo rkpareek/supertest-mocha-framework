@@ -1,9 +1,9 @@
 
 // Call the config obj
-var config = require('./config.json')
+var config = require('../config.json')
 
 var expect = require('chai').expect;
-var supermocha = require('../index')
+var supermocha = require('../../index')
 var test = new supermocha(config);
 
 describe('Test Suite...', function () {
