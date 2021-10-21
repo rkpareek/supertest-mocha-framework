@@ -8,6 +8,10 @@
 
 - All notable changes can be found [here](CHANGELOG.md)
 
+### Contribution:
+
+- Refer [contribution](CONTRIBUTING.md) guideline
+
 ## Getting Started
 
 ### Usage
@@ -17,7 +21,7 @@
 
 ### Configure
 
-- Create a confuguration object containing BaseUrl of your apis endpoints or application
+- Create a confuguration object containing BaseUrl of your apis endpoints or application. A demo project is also available in `./demo-project` folder for the reference
 
 ```
 var  config = {
@@ -36,6 +40,7 @@ var  test = new  supermocha(config);
 ### Creating Test Cases
 
 - Use the `test` object to create test cases
+- Use `test.assert` to apply the chaijs assertion
 - Pass the `options` object to test object
 - Response can be handled in `Callback` function
 
