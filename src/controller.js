@@ -34,10 +34,6 @@ module.exports = function (CONFIG) {
         let server = supertest.agent(CONFIG.baseUrl);
         request = server[reqMethod](options.uri);
 
-        if (lib.proxyCountryCode) {
-            request.proxy(utilFunctions.proxyUrl(lib.proxyCountryCode))
-        }
-
         if (options.setContentType) {
             request.set('Content-Type', options.setContentType);
         } else {
